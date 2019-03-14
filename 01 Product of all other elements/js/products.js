@@ -1,30 +1,29 @@
 const products = nums => {
   let results = [];
+  let before = [1];
+  let after = [1];
+  // `length - 1` because we're starting our arrays with an element, [1]
+  let numsLength = nums.length - 1;
 
-  // build before array
-  let before = [];
+  for (let i = 0; i < numsLength; i++) {
+    // build the array going forward
+    // last element of before times
+    before.push(before[before.length - 1] * nums[i]);
+    // before.push(before.slice(-1) * nums[i]);
 
-  before.push(nums[0]);
-  for (let i = 1; i < nums.length; i++) {
-    before.push(nums[i] * before.slice(-1));
+    // a convenient way to build the after array is
+    // going backward starting at the end
+    after.push(after[after.length - 1] * nums[numsLength - i]);
+    // after.push(after.slice(-1) * nums[numsLength - i]);
   }
 
-  // build after array
-  let after = [];
-
-  after.push(nums.reverse()[0]);
-  for (let i = 1; i < nums.length; i++) {
-    after.push(nums[i] * after.slice(-1));
-  }
-  after = after.reverse();
-
-  for (let i = 0; i < nums.length; i++) {
-    if (i == 0) results.push(after[i + 1]);
-    else if (i < nums.length - 1) results.push(before[i - 1] * after[i + 1]);
-    else results.push(before[i - 1]);
+  // put the pieces together,
+  // matching first of before and last of after
+  for (let i = 0; i < numsLength + 1; i++) {
+    results.push(before[i] * after[numsLength - i]);
   }
 
-  return results;
+  return [before, after, results];
 };
 
 console.log(products([1, 2, 3, 4, 5])); // [120, 60, 40, 30, 24]
