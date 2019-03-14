@@ -27,4 +27,4 @@ const products = nums => {
   return results;
 };
 
-console.log(products([1, 2, 3, 4, 5]));
+console.log(products([1, 2, 3, 4, 5])); // [120, 60, 40, 30, 24]
